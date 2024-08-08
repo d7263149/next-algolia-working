@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import algoliasearch from 'algoliasearch/lite';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Suspense } from 'react'
 import {
   Configure,
   DynamicWidgets,
@@ -20,27 +19,22 @@ const searchClient = algoliasearch(
 );
 const index = searchClient.initIndex('products');
 
-function Search() {
-  const searchParams = useSearchParams()
- 
-  const c = searchParams.get('c') || '';
-  return c;
-}
-
 export default function Home() {
-
-    const c = Search();
+    const searchParams = useSearchParams() ;
+    const c = searchParams.get('c');
     console.log('searchParams',c)
 
-  const [name, setName] = useState(Search);
+  const [name, setName] = useState('');
   const [datas, setDatas] = useState([]);
   useEffect(() => {
 //     if(!name){
 //       setDatas([]);
 // return;
 //     }
+let params = new URLSearchParams(document.location.search);
+let c = params.get("c"); // is the string "Jonathan"
     // Should not ever set state during rendering, so do this in useEffect instead.
-    index.search(name, {
+    index.search(c, {
       distinct: true
   }).then(({ hits }) => {
     //@ts-ignore
@@ -51,20 +45,8 @@ export default function Home() {
     // console.log('search hists', unique);
   });
     
-  }, [name]);
+  }, []);
 
-  function unixTime(unixtime) {
-
-    var u = new Date(unixtime*1000);
-
-      return u.getUTCFullYear() +
-        '-' + ('0' + u.getUTCMonth()).slice(-2) +
-        '-' + ('0' + u.getUTCDate()).slice(-2) + 
-        ' ' + ('0' + u.getUTCHours()).slice(-2) +
-        ':' + ('0' + u.getUTCMinutes()).slice(-2) +
-        ':' + ('0' + u.getUTCSeconds()).slice(-2) +
-        '.' + (u.getUTCMilliseconds() / 1000).toFixed(3).slice(2, 5) 
-    };
   return (
     <main className="flex  flex-col items-center justify-between p-5">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">

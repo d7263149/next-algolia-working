@@ -2,7 +2,6 @@
 import Image from "next/image";
 import React, { useEffect, useState } from 'react';
 import algoliasearch from 'algoliasearch/lite';
-import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import {
   Configure,
@@ -20,9 +19,6 @@ const searchClient = algoliasearch(
 const index = searchClient.initIndex('products');
 
 export default function Home() {
-    const searchParams = useSearchParams() ;
-    const c = searchParams.get('c');
-    console.log('searchParams',c)
 
   const [name, setName] = useState('');
   const [datas, setDatas] = useState([]);

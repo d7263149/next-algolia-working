@@ -9,9 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "algoliasearch": "^4.24.0",
+    "instantsearch.js": "^4.73.4",
+    "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.5"
+    "react-instantsearch": "7.12.4"
   },
   "devDependencies": {
     "postcss": "^8",

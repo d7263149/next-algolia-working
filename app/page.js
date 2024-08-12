@@ -44,6 +44,7 @@ export default function Home() {
 
   const [name, setName] = useState("");
   const [gname, setgName] = useState('');
+  const [clocation, setclocation] = useState('');
   const [datas, setDatas] = useState([]);
   useEffect(() => {
     if(!name){
@@ -71,9 +72,42 @@ return;
   });
     
   }, [name]);
+
+
+// function find(d){
+//   var lat = position.coords.latitude;
+//   var lng = position.coords.longitude;
+// console.log(d);
+
+// }
+
+function showPosition(position) {
+  var lat = position.coords.latitude;
+  var lng = position.coords.longitude;
+  console.log(lat,lng)
+  // map.setCenter(new google.maps.LatLng(lat, lng));
+  fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + lat + ',' + lng + '&key=AIzaSyAqGh594BM_qawNhAr7Qyxd8X7Z_ABMdg8')
+        .then((response) => response.json())
+        .then((responseJson) => {
+          let data = JSON.stringify(responseJson);
+            // console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson));
+            console.log('data',responseJson['results'][0]?.formatted_address)
+            setclocation(responseJson['results'][0]?.formatted_address);
+})
+}
+
+function find(s) {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
+}
+
+
   return (
     <main className="flex  flex-col items-center justify-between p-5">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
+      {/* <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
           Get started by editing&nbsp;
           <code className="font-mono font-bold">app/page.js</code>
@@ -96,7 +130,7 @@ return;
             />
           </a>
         </div>
-      </div>
+      </div> */}
 
       <div className="place-items-center   before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] ">
         {/* <Image
@@ -107,7 +141,11 @@ return;
           height={37}
           priority
         /> */}
+<button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" value="working" onClick={(e) => find(e.target.value)
 
+} >my current location </button>
+
+<h3>{clocation}</h3>
 <form autoComplete='off' onSubmit={handleSubmit}>
       <label htmlFor='location'>Enter  location:</label>
       <input

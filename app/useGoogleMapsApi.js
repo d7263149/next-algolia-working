@@ -26,7 +26,7 @@ const useGoogleMapsApi = () => {
             loading = false
             googleMapsApi = window.google.maps
             setApi(window.google.maps)
-            each(callbacks, init => init())
+            // each(callbacks, init => init())
             callbacks = []
           })
       }

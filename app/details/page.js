@@ -21,6 +21,7 @@ const index = searchClient.initIndex('products');
 export default function Home() {
 
   const [name, setName] = useState('');
+  const [gname, setgName] = useState('');
   const [datas, setDatas] = useState([]);
   useEffect(() => {
 //     if(!name){
@@ -70,7 +71,7 @@ let c = params.get("c"); // is the string "Jonathan"
         </div>
       </div>
 
-      <div className="place-items-center   before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] ">
+      <div className="place-items-center mt-5  before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] ">
         {/* <Image
           className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
           src="/next.svg"
@@ -79,13 +80,23 @@ let c = params.get("c"); // is the string "Jonathan"
           height={37}
           priority
         /> */}
+
+<label>
+              <br></br>
+        <input 
+          type="text" 
+          value={gname}
+          onChange={(e) => setgName(e.target.value)}
+          className="hidden mt-40 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </label>
             <label>
               <br></br>
         <input 
           type="text" 
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="hidden mt-40 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
       </label>
 {

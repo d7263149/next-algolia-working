@@ -1,8 +1,10 @@
 "use client"; // This is a client component 👈🏽
 import Image from "next/image";
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useEffect, forwardRef , useState} from 'react'
+import useGoogleMapsApi from './useGoogleMapsApi'
 import algoliasearch from 'algoliasearch';
 import Link from 'next/link';
+
 import {
   Configure,
   DynamicWidgets,
@@ -20,7 +22,28 @@ const index = searchClient.initIndex('products');
 
 export default function Home() {
 
+
+  const inputRef = useRef()
+  const autocompleteRef = useRef()
+  const googleMapsApi = useGoogleMapsApi()
+
+  useEffect(() => {
+    if (googleMapsApi) {
+      autocompleteRef.current = new googleMapsApi.places.Autocomplete(inputRef.current, { types: ['(cities)'] })
+      autocompleteRef.current.addListener('place_changed', () => {
+        const place = autocompleteRef.current.getPlace()
+        // Do something with the resolved place here (ie store in redux state)
+      })
+    }
+  }, [googleMapsApi])
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    return false
+  }
+
   const [name, setName] = useState("");
+  const [gname, setgName] = useState('');
   const [datas, setDatas] = useState([]);
   useEffect(() => {
     if(!name){
@@ -84,6 +107,30 @@ return;
           height={37}
           priority
         /> */}
+
+<form autoComplete='off' onSubmit={handleSubmit}>
+      <label htmlFor='location'>Enter  location:</label>
+      <input
+        name='location'
+        aria-label='Search locations'
+        ref={inputRef}
+        placeholder='placeholder'
+        autoComplete='off'
+         className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      />
+    </form>
+
+
+        {/* <label>Enter  location:
+              <br></br>
+        <input 
+          type="text" 
+          value={gname}
+          name="search_input"
+          onChange={(e) => setgName(e.target.value)}
+          className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </label> */}
             <label>Enter category:
               <br></br>
         <input 
